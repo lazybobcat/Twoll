@@ -1,9 +1,9 @@
-## Interface: 40300
+## Interface: 50400
 
 ## Title:Twoll
 ## Notes-frFR: Addon pour parler comme les trolls, mec !
 ## Author: Acacïa@Hyjal-EU
-## Version: 0.4.1
+## Version: 0.4.2
 ## X-Category: Roleplay, Communication
 ## SavedVariablesPerCharacter: TwollBoolActive
 
