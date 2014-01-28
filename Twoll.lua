@@ -5,13 +5,15 @@ speak like a troll.
 You can modify it, without any guaranties, but please advertise me !
 ************************************ --]]
 
-local rand
-local TwollVersion = "0.4.2"
+local rand;
+local TwollVersion = "0.4.3";
+local _, L = ...;
+
 
 -- OnLoad fonction
 function Twoll_OnLoad()
 	-- Enterworld sentence
-	Twoll.print("|cff5672ff>> Salut, mec ! Bienvenue suw Twoll ! /twoll pouw activer/d\195\169sactiver !|r");
+	Twoll.print("|cff5672ff>> "..L["OnLoadMessage"].."|r");
 	-- Hook the Blizzard's chat function
 	hooksecurefunc('ChatEdit_ParseText',Twoll_ParseText);
 	
@@ -22,11 +24,11 @@ function Twoll_OnLoad()
 		if (TwollActif == true) then
 			TwollActif = false;
 			TwollBoolActive = TwollActif;
-			Twoll.print("Le langage Twoll est d\195\169sactiv\195\169 !");
+			Twoll.print(L["Twoll language deactivated"]);
 		else
 			TwollActif = true;
 			TwollBoolActive = TwollActif;
-			Twoll.print("Le langage Twoll est activ\195\169 !");
+			Twoll.print(L["Twoll language activated"]);
 		end
 	end
 end
@@ -81,7 +83,7 @@ function Twoll.wisp(message)
 end
 
 function Twoll.print(message)
-	DEFAULT_CHAT_FRAME:AddMessage("|cffffffff"..message.."|r")
+	DEFAULT_CHAT_FRAME:AddMessage("|cffffffff"..message.."|r");
 	return 1
 end
 
@@ -102,7 +104,7 @@ function Twoll_ParseText(chatEntry, send)
 			rand = math.random(1,3)
 			
 			-- Regexes : modifying the message entered
-			text = string.gsub( text, "âme", "mojo");
+			text = string.gsub( text, L["soul"], "mojo");
 			text = string.gsub( text, "jean", "Vol'jean");
 			text = string.gsub( text, "rr", "w");
 			
@@ -117,25 +119,23 @@ function Twoll_ParseText(chatEntry, send)
 				text = string.gsub( text, "R([^%s,;?!])", "W%1");
 			end
 			
-			-- Random for twoll, guy !
-			if ((string.find(text, "mec") == nil) and (string.find(text, "[!]"))) then
-				text = string.gsub( text, "!", ", mec !");
+			if ((string.find(text, L["dude"]) == nil) and (string.find(text, "[!]"))) then
+				text = string.gsub( text, "!", ", "..L["dude"].." !");
 			end
 			
+			-- Sound when the caracter laugh
+			if (string.find(text, L["lol"]) ~= nil or string.find(text, L["twoll_lol"]) ~= nil) then
+				PlaySoundFile("Sound\\Character\\Troll\\TrollMaleLaugh01.wav");
+			end
+			
+			-- Sound when the caracter emote
+			if (string.find(text, L["hello"]) ~= nil or string.find(text, L["hi"]) ~= nil) then
+				PlaySoundFile("Sound\\Character\\Troll\\TrollVocalFemale\\TrollFemaleHello01.wav");
+			end
 		end
 		
 		-- send the new text on the canal !
 		chatEntry:SetText( text );
-		
-		-- Sound when the caracter laugh
-		if (string.find(text, "lol") ~= nil or string.find(text, "mdw") ~= nil) then
-			PlaySoundFile("Sound\\Character\\Troll\\TrollMaleLaugh01.wav");
-		end
-		
-		-- Sound when the caracter emote
-		if (string.find(text, "bonjour") ~= nil or string.find(text, "salut") ~= nil) then
-			PlaySoundFile("Sound\\Character\\Troll\\TrollVocalFemale\\TrollFemaleHello01.wav");
-		end
      end
  end
 --[[   SOUND DATABASE
@@ -188,12 +188,12 @@ SampleTracker:SetScript("OnEvent", function(self, event, ...)
 		if TwollActif == true then
 			PlaySoundFile("Sound\\Character\\Troll\\TrollVocalMale\\TrollMaleCongratulations01.wav");
 			if rand == 1 then
-				Twoll.guild("Livwez vous au Voodoo !");
+				Twoll.guild(L["Suwender to Voodoo !"]);
 			end
 		end
 	elseif event == "PLAYER_UNGHOST" then
 		if ((rand == 1) and (TwollActif == true)) then
-			Twoll.say("Continuez et \195\167a va bawder !");
+			Twoll.say(L["Keep on and get w'eady to w'ock with a legend!"]);
 		end
 	else
 		
